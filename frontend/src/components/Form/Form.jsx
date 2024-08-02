@@ -5,6 +5,7 @@ import React, { Fragment, useEffect } from "react";
 import { toast } from "react-toastify";
 import { useCreateUserMutation } from "../../context/api/userApi";
 import useGetValue from "../../hook/useGetValue";
+import { useNavigate } from "react-router-dom";
 
 const initialState = {
   fname: "",
@@ -20,7 +21,7 @@ const initialState = {
 const Form = () => {
   const [createUser, { data, isLoading, isSuccess }] = useCreateUserMutation();
   const { handleChange, setUser, user } = useGetValue(initialState);
-
+  const navigate = useNavigate();
   const handleCreateUser = (e) => {
     e.preventDefault();
     createUser(user);
@@ -30,6 +31,7 @@ const Form = () => {
     if (isSuccess) {
       toast.success(data?.msg);
       setUser(initialState);
+      navigate("/login");
     }
   }, [isSuccess, setUser]);
 
